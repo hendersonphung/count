@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Count</title>
+<link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="../assets/css/styles.css">
+<link rel="stylesheet" href="../assets/css/print.css" media="print">
+</head>
+<body>
+
+<div class="container-sm px-3" style="max-width: 720px;">
+
+  <header class="sticky-top bg-body pt-3 pt-sm-4 pb-3 border-bottom">
+    <div class="d-flex justify-content-between align-items-center w-100 mb-2 gap-2">
+      
+      <div class="d-flex align-items-center gap-2">
+        <a href="../index.html" class="btn btn-outline-dark fw-semibold" id="homeBtn" aria-label="Return to Main Menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
+  <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5"/>
+</svg>
+<span class="d-none d-sm-inline ms-1">Home</span>
+        </a>
+
+        <div class="btn-group flex-shrink-0" role="group" aria-label="Switch view">
+          <button type="button" class="btn btn-dark fw-semibold" id="viewCountBtn" aria-pressed="true">Count</button>
+          <button type="button" class="btn btn-outline-dark fw-semibold" id="viewTotalsBtn" aria-pressed="false">Totals</button>
+        </div>
+      </div>
+
+      <div class="d-flex align-items-center gap-2 flex-shrink-0">
+        <button class="btn btn-primary fw-semibold" id="helpBtn" data-bs-toggle="modal" data-bs-target="#helpModal" aria-label="Help">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+          </svg><span class="d-none d-sm-inline ms-1">Help</span>
+        </button>
+
+        <div class="btn-group" id="countActions" role="group" aria-label="Count actions">
+          <button class="btn btn-outline-secondary fw-semibold" id="csvBtn" data-bs-toggle="modal" data-bs-target="#csvModal" aria-label="Download CSV">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+            </svg><span class="d-none d-sm-inline ms-1">Download CSV</span>
+          </button>
+          <button class="btn btn-outline-danger fw-semibold" id="resetBtn" data-bs-toggle="modal" data-bs-target="#resetModal" aria-label="Reset">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-octagon-fill" viewBox="0 0 16 16">
+              <path d="M11.46.146A.5.5 0 0 0 11.107 0H4.893a.5.5 0 0 0-.353.146L.146 4.54A.5.5 0 0 0 0 4.893v6.214a.5.5 0 0 0 .146.353l4.394 4.394a.5.5 0 0 0 .353.146h6.214a.5.5 0 0 0 .353-.146l4.394-4.394a.5.5 0 0 0 .146-.353V4.893a.5.5 0 0 0-.146-.353zm-6.106 4.5L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 1 1 .708-.708"/>
+            </svg><span class="d-none d-sm-inline ms-1">Reset</span>
+          </button>
+        </div>
+
+        <button class="btn btn-outline-secondary fw-semibold text-nowrap" id="printBtn" aria-label="Print" style="display:none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
+          </svg><span class="d-none d-sm-inline ms-1">Print</span>
+        </button>
+      </div>
+    </div>
+
+    <h1 class="fw-bold h2 mb-2 mb-sm-3" id="pageTitle">Weekly Count Page</h1>
+
+    <div class="d-flex align-items-center gap-2 mb-3">
+      <div class="progress flex-fill" style="height: 8px;" role="progressbar" aria-label="Items counted" aria-valuenow="0" aria-valuemin="0" aria-valuemax="0">
+        <div class="progress-bar bg-warning" id="progressFill" style="width: 0%"></div>
+      </div>
+      <span class="text-body-secondary small fw-semibold text-nowrap" id="progressLabel">0 / 0 counted</span>
+    </div>
+
+    <div class="input-group" id="searchRow">
+      <span class="input-group-text bg-body">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-body-secondary">
+          <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
+        </svg>
+      </span>
+      <input id="searchInput" type="text" class="form-control" placeholder="Search item…" autocomplete="off">
+    </div>
+
+    <p class="text-body-secondary small mb-0" id="totalsHeaderExtra" style="display:none;">Listed in POS sequence order.</p>
+  </header>
+
+  <div id="printTimestamp" class="print-only-header"></div>
+
+  <main class="pt-3">
+    <div id="countView">
+      <div id="list"></div>
+      <p class="text-center text-body-secondary py-4" id="emptyNote" style="display: none;">No items match your search.</p>
+    </div>
+
+    <div id="totalsView" style="display:none;">
+      <div class="d-flex align-items-center gap-3 py-1 text-uppercase text-body-secondary small fw-semibold">
+        <span class="text-left" style="width: 36px;">Seq</span>
+        <span class="flex-fill">Item</span>
+        <span class="text-end" style="min-width: 80px;">On hand</span>
+      </div>
+      <div id="totalsList"></div>
+    </div>
+  </main>
+
+</div>
+
+<div id="modalContainer"></div>
+
+<script src="../assets/js/bootstrap.bundle.min.js"></script>
+<script src="js/items.js"></script>
+<script src="js/shared.js"></script>
+<script src="../assets/js/export.js"></script>
+<script src="../assets/js/reset.js"></script>
+<script src="../assets/js/components.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
