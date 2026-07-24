@@ -69,8 +69,6 @@ function saveTicks(ticks){
   }
 }
 
-// Sorted in POS sequence order — this is the order used for the Totals
-// page and the CSV export, so it lines up with what's being keyed into the POS.
 function itemsInPosSequence(){
   return [...ITEMS].sort((a,b) => a.seq - b.seq);
 }

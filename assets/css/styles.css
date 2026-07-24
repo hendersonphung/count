@@ -45,25 +45,24 @@
   align-items: center;
   background-color: #212529;
   color: #fff;
-  padding: 0.5rem 1rem;
+  padding: 0.625rem 1.125rem;
   border-radius: 0.375rem;
   margin-bottom: 0.5rem;
 }
 
 .loc-title {
-  font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 .loc-count {
   margin-left: auto;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #fff;
 }
 
 .item-card {
-  background-color: #fff;
+  background-color: #f5f5f5;
   border-radius: 0.375rem;
   margin-bottom: 0.5rem;
 }
