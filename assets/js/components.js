@@ -15,7 +15,7 @@ function injectModals() {
               <li class="mb-2"><strong>Entering Counts:</strong> Enter full case quantities under <em>Case</em> and individual items under <em>Loose</em>. The <em>On Hand</em> total calculates automatically based on the item pack size.</li>
               <li class="mb-2"><strong>Search:</strong> Use the search bar to filter by item name or sequence number.</li>
               <li class="mb-2"><strong>POS Key-In:</strong> Click <strong>Totals →</strong> to view all counts ordered in POS sequence for fast entry or printing.</li>
-              <li class="mb-2"><strong>Exporting:</strong> Click <strong>Export</strong> to choose a CSV download or a PDF export of the totals view.</li>
+              <li class="mb-2"><strong>Exporting:</strong> Click <strong>Export</strong> to choose a CSV download or a PDF export of the totals view.<br><em class="d-block ps-3"><strong>On Store iPad:</strong>  Select Export PDF (a print dialog will appear), press the share button (square with an upward-pointing arrow), select Outlook, and send to your store email.</em></li>
               <li><strong>Resetting:</strong> Click <strong>Reset</strong> to clear all counts for a new sheet.</li>
             </ul>
           </div>
@@ -35,6 +35,9 @@ function injectModals() {
           </div>
           <div class="modal-body">
             Choose how to export the current totals view.
+            <ul class="mt-2 ps-3">
+              <li class="mb-2"><strong>On Store iPad:</strong> Select Export PDF (a print dialog will appear), press the share button (square with an upward-pointing arrow), select Outlook, and send to your store email.</li>
+            </ul>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
