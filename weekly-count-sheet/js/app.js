@@ -173,6 +173,8 @@ function renderTotalsView() {
   const sortedItems = itemsInPosSequence();
 
   let tableHtml = `
+  <p class="scroll-hint">Scroll for more →</p>
+  <div class="totals-table-scroll">
   <table class="table print-table totals-table align-middle">
     <thead>
       <tr>
@@ -210,6 +212,7 @@ function renderTotalsView() {
   tableHtml += `
       </tbody>
     </table>
+  </div>
   `;
 
   list.innerHTML = tableHtml;
