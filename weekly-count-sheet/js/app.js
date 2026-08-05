@@ -20,10 +20,12 @@ function updateProgress() {
 function renderCountView() {
   const list = document.getElementById('list');
   const emptyNote = document.getElementById('emptyNote');
+  if (!list) return;
+
   list.innerHTML = "";
 
   const visible = ITEMS.filter(matchesQuery);
-  emptyNote.style.display = visible.length === 0 ? 'block' : 'none';
+  if (emptyNote) emptyNote.style.display = visible.length === 0 ? 'block' : 'none';
 
   updateProgress();
 
@@ -158,34 +160,59 @@ function onInputChange(e) {
   const loc = item.location;
   const locCounted = ITEMS.filter(i => i.location === loc && isCounted(i, counts)).length;
   const locTotal = ITEMS.filter(i => i.location === loc).length;
-  const headerCountEl = rowEl.closest('.loc-section').querySelector('.loc-count');
+  const headerCountEl = rowEl.closest('.loc-section')?.querySelector('.loc-count');
   if (headerCountEl) headerCountEl.textContent = `${locCounted}/${locTotal}`;
 }
 
 function renderTotalsView() {
   const list = document.getElementById('totalsList');
-  list.innerHTML = "";
+  if (!list) return;
 
   updateProgress();
 
-  itemsInPosSequence().forEach(item => {
-    list.appendChild(renderTotalsRow(item));
+  const sortedItems = itemsInPosSequence();
+
+  let tableHtml = `
+  <table class="table print-table align-middle">
+    <thead>
+      <tr>
+        <th style="width: 10%; text-align: center;">Seq</th>
+        <th style="width: 25%;">Location</th>
+        <th style="width: 35%;">Item Name</th>
+        <th style="width: 10%; text-align: center;">Cases</th>
+        <th style="width: 10%; text-align: center;">Loose</th>
+        <th style="width: 10%; text-align: center;">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+`;
+
+  sortedItems.forEach(item => {
+    const c = counts[item.seq] || counts[item.id] || {};
+    const { value } = computeOnHand(item, counts);
+
+    const caseVal = c.caseCount ?? c.case ?? '';
+    const looseVal = c.looseCount ?? c.loose ?? '';
+    const totalVal = value !== null && value !== undefined ? fmtNum(value) : '';
+
+    tableHtml += `
+      <tr>
+        <td style="text-align: center;">${item.seq ?? ''}</td>
+        <td>${item.location ?? ''}</td>
+        <td class="col-item-name">${item.name}</td>
+        <td style="text-align: center;">${caseVal !== '' ? caseVal : ''}</td>
+        <td style="text-align: center;">${looseVal !== '' ? looseVal : ''}</td>
+        <td style="text-align: center;">${totalVal}</td>
+      </tr>
+    `;
   });
-}
 
-function renderTotalsRow(item) {
-  const { value } = computeOnHand(item, counts);
-  const notCounted = value === null;
-
-  const row = document.createElement('div');
-  row.className = 'totals-row';
-  row.innerHTML = `
-    <span class="row-seq">${item.seq}</span>
-    <span class="row-name">${item.name}</span>
-    <span class="row-value ${notCounted ? 'is-empty' : ''}">${notCounted ? '—' : fmtNum(value)}</span>
+  tableHtml += `
+      </tbody>
+    </table>
   `;
 
-  return row;
+  list.innerHTML = tableHtml;
 }
 
 function renderCurrentView() {
@@ -204,38 +231,62 @@ function switchView(view) {
   currentView = view;
   const isCount = view === 'count';
 
-  document.getElementById('countView').style.display = isCount ? '' : 'none';
-  document.getElementById('totalsView').style.display = isCount ? 'none' : '';
-  document.getElementById('searchRow').style.display = isCount ? '' : 'none';
-  document.getElementById('totalsHeaderExtra').style.display = isCount ? 'none' : '';
-  document.getElementById('countActions').style.display = isCount ? '' : 'none';
-  document.getElementById('printBtn').style.display = isCount ? 'none' : '';
-  document.getElementById('pageTitle').textContent = isCount ? 'Weekly Count Page' : 'POS Key-In / Totals';
+  const countView = document.getElementById('countView');
+  const totalsView = document.getElementById('totalsView');
+  const searchRow = document.getElementById('searchRow');
+  const totalsHeaderExtra = document.getElementById('totalsHeaderExtra');
+  const countActions = document.getElementById('countActions');
+  const printBtn = document.getElementById('printBtn');
+  const pageTitle = document.getElementById('pageTitle');
+
+  if (countView) countView.style.display = isCount ? '' : 'none';
+  if (totalsView) totalsView.style.display = isCount ? 'none' : '';
+  if (searchRow) searchRow.style.display = isCount ? '' : 'none';
+  if (totalsHeaderExtra) totalsHeaderExtra.style.display = isCount ? 'none' : '';
+  if (countActions) countActions.style.display = isCount ? '' : 'none';
+  if (printBtn) printBtn.style.display = isCount ? 'none' : '';
+  if (pageTitle) pageTitle.textContent = isCount ? 'Weekly Count Page' : 'POS Key-In / Totals';
 
   const countBtn = document.getElementById('viewCountBtn');
   const totalsBtn = document.getElementById('viewTotalsBtn');
-  countBtn.classList.toggle('btn-dark', isCount);
-  countBtn.classList.toggle('btn-outline-dark', !isCount);
-  totalsBtn.classList.toggle('btn-dark', !isCount);
-  totalsBtn.classList.toggle('btn-outline-dark', isCount);
-  countBtn.setAttribute('aria-pressed', String(isCount));
-  totalsBtn.setAttribute('aria-pressed', String(!isCount));
+
+  if (countBtn) {
+    countBtn.classList.toggle('btn-dark', isCount);
+    countBtn.classList.toggle('btn-outline-dark', !isCount);
+    countBtn.setAttribute('aria-pressed', String(isCount));
+  }
+  if (totalsBtn) {
+    totalsBtn.classList.toggle('btn-dark', !isCount);
+    totalsBtn.classList.toggle('btn-outline-dark', isCount);
+    totalsBtn.setAttribute('aria-pressed', String(!isCount));
+  }
 
   renderCurrentView();
 }
 
-document.getElementById('viewCountBtn').addEventListener('click', () => switchView('count'));
-document.getElementById('viewTotalsBtn').addEventListener('click', () => switchView('totals'));
+const viewCountBtn = document.getElementById('viewCountBtn');
+if (viewCountBtn) viewCountBtn.addEventListener('click', () => switchView('count'));
 
-document.getElementById('searchInput').addEventListener('input', (e) => {
-  query = e.target.value;
-  renderCountView();
-});
+const viewTotalsBtn = document.getElementById('viewTotalsBtn');
+if (viewTotalsBtn) viewTotalsBtn.addEventListener('click', () => switchView('totals'));
 
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+  searchInput.addEventListener('input', (e) => {
+    query = e.target.value;
+    renderCountView();
+  });
+}
 
-document.getElementById('printBtn').addEventListener('click', () => {
-  window.print();
-});
+const printBtn = document.getElementById('printBtn');
+if (printBtn) {
+  printBtn.addEventListener('click', () => {
+    switchView('totals');
+    setTimeout(() => {
+      window.print();
+    }, 100);
+  });
+}
 
 window.addEventListener('beforeprint', () => {
   const timestampEl = document.getElementById('printTimestamp');
@@ -263,8 +314,8 @@ window.addEventListener('afterprint', () => {
 });
 
 (function init() {
-  injectModals();
-  counts = loadCounts();
-  collapsedLocs = new Set(LOC_ORDER);
+  if (typeof injectModals === 'function') injectModals();
+  if (typeof loadCounts === 'function') counts = loadCounts();
+  if (typeof LOC_ORDER !== 'undefined') collapsedLocs = new Set(LOC_ORDER);
   switchView('count');
 })();

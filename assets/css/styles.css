@@ -161,3 +161,36 @@
   color: #6c757d;
   font-size: 0.875rem;
 }
+
+#totalsList .totals-row,
+#totalsList tr {
+  border-bottom: 1px solid #dee2e6; /* Line between each item */
+}
+
+#totalsList .totals-row {
+  padding: 12px 16px;
+  margin-bottom: 4px;
+}
+
+#totalsList th {
+  white-space: nowrap;
+}
+
+#totalsList td, 
+#totalsList th {
+  padding: 12px 16px; 
+  border-bottom: 1px solid #dee2e6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+#totalsList td:first-child,
+#totalsList th:first-child,
+.row-seq {
+  text-align: center !important;
+}
+
+#totalsList table {
+  table-layout: fixed;
+  width: 100%;
+}
