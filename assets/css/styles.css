@@ -164,7 +164,7 @@
 
 #totalsList .totals-row,
 #totalsList tr {
-  border-bottom: 1px solid #dee2e6; /* Line between each item */
+  border-bottom: 1px solid #dee2e6;
 }
 
 #totalsList .totals-row {
@@ -193,4 +193,93 @@
 #totalsList table {
   table-layout: fixed;
   width: 100%;
+}
+
+.totals-table .stat-label {
+  display: none;
+}
+
+@media (max-width: 575.98px) {
+  .totals-table thead {
+    display: none;
+  }
+
+  .totals-table,
+  .totals-table tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .totals-table tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0.5rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 0.65rem 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .totals-table td {
+    display: block;
+    border: none !important;
+    padding: 0 !important;
+    text-align: left !important;
+  }
+
+  .totals-table .col-seq {
+    order: 1;
+    flex: 0 0 auto;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: #6c757d;
+  }
+  .totals-table .col-seq::before {
+    content: "#";
+  }
+
+  .totals-table .col-item-name {
+    order: 2;
+    flex: 1 1 auto;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .totals-table .col-location {
+    order: 3;
+    flex: 0 0 100%;
+    font-size: 0.75rem;
+    color: #6c757d;
+  }
+
+  .totals-table .col-cases,
+  .totals-table .col-loose,
+  .totals-table .col-total {
+    flex: 0 0 auto;
+    margin-top: 0.4rem;
+    padding-top: 0.4rem !important;
+    border-top: 1px dashed #dee2e6 !important;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .totals-table .col-cases { order: 4; }
+  .totals-table .col-loose { order: 5; }
+  .totals-table .col-total {
+    order: 6;
+    margin-left: auto;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #212529;
+  }
+
+  .totals-table .stat-label {
+    display: inline;
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6c757d;
+    margin-right: 0.3rem;
+  }
 }

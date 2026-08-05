@@ -173,7 +173,7 @@ function renderTotalsView() {
   const sortedItems = itemsInPosSequence();
 
   let tableHtml = `
-  <table class="table print-table align-middle">
+  <table class="table print-table totals-table align-middle">
     <thead>
       <tr>
         <th style="width: 10%; text-align: center;">Seq</th>
@@ -197,12 +197,12 @@ function renderTotalsView() {
 
     tableHtml += `
       <tr>
-        <td style="text-align: center;">${item.seq ?? ''}</td>
-        <td>${item.location ?? ''}</td>
+        <td class="col-seq" style="text-align: center;">${item.seq ?? ''}</td>
+        <td class="col-location">${item.location ?? ''}</td>
         <td class="col-item-name">${item.name}</td>
-        <td style="text-align: center;">${caseVal !== '' ? caseVal : ''}</td>
-        <td style="text-align: center;">${looseVal !== '' ? looseVal : ''}</td>
-        <td style="text-align: center;">${totalVal}</td>
+        <td class="col-cases" style="text-align: center;"><span class="stat-label">Cases</span>${caseVal !== '' ? caseVal : ''}</td>
+        <td class="col-loose" style="text-align: center;"><span class="stat-label">Loose</span>${looseVal !== '' ? looseVal : ''}</td>
+        <td class="col-total" style="text-align: center;"><span class="stat-label">On hand</span>${totalVal || ''}</td>
       </tr>
     `;
   });

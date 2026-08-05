@@ -64,11 +64,11 @@ body, .container, main {
 .print-table th, 
 .print-table td {
   border: 1px solid #000000 !important;
-  padding: 4px 6px !important;
+  padding: 2px 4px !important;
   text-align: center !important;
   vertical-align: middle !important;
-  font-size: 9pt !important;
-  line-height: 1.2 !important;
+  font-size: 8.5pt !important;
+  line-height: 1.15 !important;
   word-wrap: break-word !important;
   overflow-wrap: break-word !important;
 }
@@ -84,6 +84,14 @@ body, .container, main {
 
 .print-table tr {
   page-break-inside: avoid !important;
+  height: 0.24in !important; 
+}
+
+@media print {
+  .print-table tbody tr:nth-child(40n + 1) {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
 }
 
 .print-table td.col-item-name {
